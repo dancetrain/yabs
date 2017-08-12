@@ -1,0 +1,37 @@
+<configuration>
+    <property name="PATTERN" value="[%date{ISO8601, UTC} UTC][%-5level][%thread][%class{20}][%M][%X{ip}][%X{type}][%X{op}] - %msg%n"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE-SYNC" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${mvn.logging.dir}/${project.artifactId}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${mvn.logging.dir}/${project.artifactId}.%d-%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${mvn.logging.maxFileSize}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>14</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FILE-SYNC"/>
+    </appender>
+
+    <logger name="com.pb" level="DEBUG" additivity="false">
+        <appender-ref ref="${mvn.logging.appender}"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="${mvn.logging.appender}"/>
+    </root>
+
+</configuration>
