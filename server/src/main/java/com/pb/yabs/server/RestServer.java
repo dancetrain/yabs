@@ -1,36 +1,31 @@
 package com.pb.yabs.server;
 
-import com.google.common.collect.ImmutableList;
-import com.pb.yabs.server.rest.handler.RootHandler;
-import com.pb.yabs.server.rest.processors.*;
 import com.sun.net.httpserver.HttpServer;
-
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Pavel Borsky
  *         date 2017-08-12
  */
 public class RestServer {
+    private final static Logger logger = LoggerFactory.getLogger(RestServer.class);
 
     private final HttpServer server;
 
-    RestServer(int port) throws IOException {
-        server = HttpServer.create(new InetSocketAddress(port), 0);
-    }
-
-    void setupContext(List<Processor> processors) {
-        server.createContext("/", new RootHandler(processors));
+    public RestServer(HttpServer server) {
+        this.server = server;
     }
 
     public void start() {
+        logger.warn("RestServer started at {}", server.getAddress());
         server.start();
     }
 
     public void stop() {
+        logger.warn("RestServer stopping...");
         server.stop(5);
+        logger.warn("RestServer stopped");
     }
 
     public static void main(String[] args) throws Exception {
@@ -38,19 +33,9 @@ public class RestServer {
             // TODO: print usage
             System.exit(1);
         } else {
-            RestServer server = new RestServer(Integer.parseInt(args[0]));
-            server.setupContext(listProcessors());
+            ServerFactory restServerFactory = new ServerFactory();
+            RestServer server = new RestServer(restServerFactory.createServer(Integer.parseInt(args[0])));
             server.start();
         }
-    }
-
-    private static List<Processor> listProcessors() {
-        return ImmutableList.of(
-                new RegistrationProcessor(),
-                new DepositProcessor(),
-                new WithdrawProcessor(),
-                new TransferProcessor(),
-                new BalanceProcessor()
-        );
     }
 }
