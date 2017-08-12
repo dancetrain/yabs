@@ -34,12 +34,14 @@ public class AccountService {
     }
 
     public CompletableFuture<Account> depositAsync(UUID accountUUID, double amount) {
+        validateAmountOrThrow(amount);
         return accountDAO.updateAccount(accountUUID, account -> {
             return account.apply(amount);
         });
     }
 
     public CompletableFuture<Account> withdrawAsync(UUID accountUUID, double amount) {
+        validateAmountOrThrow(amount);
         return accountDAO.updateAccount(accountUUID, account -> {
             if (account.getBalance() < amount) {
                 throw new YabsException(ErrorCode.NOT_ENOUGH_MONEY, "{} is not enough to transfer {}", account.getBalance(), amount);
@@ -70,5 +72,11 @@ public class AccountService {
 
     public void clear() {
         accountDAO.clear();
+    }
+
+    private void validateAmountOrThrow(double amount) {
+        if (amount < 0.0) {
+            throw new YabsException(ErrorCode.NEGATIVE_TRANSFER, "Amount {} is negative", amount);
+        }
     }
 }

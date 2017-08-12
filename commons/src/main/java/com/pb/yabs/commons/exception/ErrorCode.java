@@ -7,7 +7,8 @@ package com.pb.yabs.commons.exception;
 public enum ErrorCode {
     UNKNOWN(42),
     ACCOUNT_NOT_FOUND(1),
-    NOT_ENOUGH_MONEY(2);
+    NOT_ENOUGH_MONEY(2),
+    NEGATIVE_TRANSFER(3);
 
     private int value;
     ErrorCode(int value) {
