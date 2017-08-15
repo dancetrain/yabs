@@ -13,6 +13,7 @@ import java.util.concurrent.CompletableFuture;
  */
 public class WithdrawProcessor extends AbstractProcessor {
     private final AccountService accountService;
+    public static String WITHDRAW_ENDPOINT = "withdraw";
 
     public WithdrawProcessor(AccountService accountService) {
         this.accountService = accountService;
@@ -20,7 +21,7 @@ public class WithdrawProcessor extends AbstractProcessor {
 
     @Override
     public String getEndpoint() {
-        return "withdraw";
+        return WITHDRAW_ENDPOINT;
     }
 
     @Override

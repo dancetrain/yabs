@@ -1,19 +1,26 @@
 package com.pb.yabs.commons.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.annotation.concurrent.Immutable;
 import java.util.UUID;
 
 /**
  * @author Pavel Borsky
  *         date 2017-08-12
  */
+@Immutable
 public class Account {
 
     private final UUID uuid;
     private final double balance;
 
-    public Account(UUID uuid, double amount) {
+    @JsonCreator
+    public Account(@JsonProperty("uuid") UUID uuid, @JsonProperty("balance") double balance) {
         this.uuid = uuid;
-        this.balance = amount;
+        this.balance = balance;
     }
 
     public UUID getUuid() {

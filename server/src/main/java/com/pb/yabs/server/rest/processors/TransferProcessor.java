@@ -5,7 +5,6 @@ import com.pb.yabs.commons.model.Transfer;
 import com.pb.yabs.commons.service.AccountService;
 import com.sun.net.httpserver.HttpExchange;
 
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -15,6 +14,7 @@ import java.util.concurrent.CompletableFuture;
  */
 public class TransferProcessor extends AbstractProcessor {
     private final AccountService accountService;
+    public static String TRANSFER_ENDPOINT = "transfer";
 
     public TransferProcessor(AccountService accountService) {
         this.accountService = accountService;
@@ -22,7 +22,7 @@ public class TransferProcessor extends AbstractProcessor {
 
     @Override
     public String getEndpoint() {
-        return "transfer";
+        return TRANSFER_ENDPOINT;
     }
 
     @Override

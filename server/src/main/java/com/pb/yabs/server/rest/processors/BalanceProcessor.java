@@ -3,8 +3,6 @@ package com.pb.yabs.server.rest.processors;
 import com.pb.yabs.commons.service.AccountService;
 import com.sun.net.httpserver.HttpExchange;
 
-import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -13,6 +11,7 @@ import java.util.concurrent.CompletableFuture;
  */
 public class BalanceProcessor extends AbstractProcessor {
     private final AccountService accountService;
+    public static String BALANCE_ENDPOINT = "balance";
 
     public BalanceProcessor(AccountService accountService) {
         this.accountService = accountService;
@@ -20,7 +19,7 @@ public class BalanceProcessor extends AbstractProcessor {
 
     @Override
     public String getEndpoint() {
-        return "balance";
+        return BALANCE_ENDPOINT;
     }
 
     @Override

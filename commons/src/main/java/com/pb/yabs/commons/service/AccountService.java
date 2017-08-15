@@ -50,10 +50,9 @@ public class AccountService {
         });
     }
 
-    public CompletableFuture<Transfer> validateAndAcceptTransferAsync(Transfer transfer) {
+    public CompletableFuture<Account> validateAndAcceptTransferAsync(Transfer transfer) {
         return withdrawAsync(transfer.getSender(), transfer.getAmount())
-                .thenCompose(sender -> depositAsync(transfer.getRecipient(), transfer.getAmount()))
-                .thenApply(recipient -> transfer);
+                .thenCompose(sender -> depositAsync(transfer.getRecipient(), transfer.getAmount()).thenApply(recipient -> sender));
     }
 
     public CompletableFuture<Account> fetchAccountAsync(UUID uuid) {

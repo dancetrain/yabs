@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.pb.yabs.commons.service.AccountService;
 import com.sun.net.httpserver.HttpExchange;
 
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -13,8 +12,8 @@ import java.util.concurrent.CompletableFuture;
  *         date 2017-08-12
  */
 public class DepositProcessor extends AbstractProcessor {
-
     private final AccountService accountService;
+    public static String DEPOSIT_ENDPOINT = "deposit";
 
     public DepositProcessor(AccountService accountService) {
         this.accountService = accountService;
@@ -22,7 +21,7 @@ public class DepositProcessor extends AbstractProcessor {
 
     @Override
     public String getEndpoint() {
-        return "deposit";
+        return DEPOSIT_ENDPOINT;
     }
 
     @Override

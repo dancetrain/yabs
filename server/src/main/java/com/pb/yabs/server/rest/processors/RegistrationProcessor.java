@@ -14,6 +14,7 @@ import java.util.concurrent.CompletableFuture;
  */
 public class RegistrationProcessor extends AbstractProcessor {
     private static final Logger logger = LoggerFactory.getLogger(RegistrationProcessor.class);
+    public static String REGISTRATION_ENDPOINT = "registration";
 
     private final AccountService accountService;
 
@@ -24,7 +25,7 @@ public class RegistrationProcessor extends AbstractProcessor {
 
     @Override
     public String getEndpoint() {
-        return "registration";
+        return REGISTRATION_ENDPOINT;
     }
 
     @Override
