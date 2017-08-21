@@ -16,6 +16,7 @@ import java.util.function.Function;
  */
 public class MemoryAccountDAO implements AccountDAO {
     private Map<UUID, Account> accounts = new ConcurrentHashMap<>();
+    private static final Logger logger = LoggerFactory.getLogger(MemoryAccountDAO.class);
 
     @Override
     public void clear() {
