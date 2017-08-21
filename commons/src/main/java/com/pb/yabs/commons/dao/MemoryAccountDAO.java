@@ -16,7 +16,6 @@ import java.util.function.Function;
  */
 public class MemoryAccountDAO implements AccountDAO {
     private Map<UUID, Account> accounts = new ConcurrentHashMap<>();
-    private ScheduledThreadPoolExecutor pool = new ScheduledThreadPoolExecutor(4);
 
     @Override
     public void clear() {
@@ -38,21 +37,28 @@ public class MemoryAccountDAO implements AccountDAO {
     @Override
     public CompletableFuture<Account> updateAccount(UUID uuid, Function<Account, Account> update) {
         final CompletableFuture<Account> cf = new CompletableFuture<>();
-        // emulate some network delay before update
-        pool.schedule(() -> {
-            cf.complete(accounts.computeIfPresent(uuid, (u, account) -> update.apply(account)));
-        }, ThreadLocalRandom.current().nextLong(50), TimeUnit.MILLISECONDS);
+        accounts.compute(uuid, (u, account) -> {
+            if (account != null) {
+                final Account result = update.apply(account);
+                cf.complete(result);
+                return result;
+            } else {
+                logger.error("Missing account {}", uuid);
+                cf.completeExceptionally(new YabsException(ErrorCode.ACCOUNT_NOT_FOUND, "Missing Account({})", uuid));
+                return null;
+            }
+        });
         return cf;
     }
 
     @Override
     public CompletableFuture<Account> getAccount(UUID uuid) {
         final CompletableFuture<Account> cf = new CompletableFuture<>();
-
-        if (!accounts.containsKey(uuid)) {
+        final Account account = accounts.get(uuid);
+        if (account == null) {
             cf.completeExceptionally(new YabsException(ErrorCode.ACCOUNT_NOT_FOUND, "Account({}) not found", uuid));
         } else {
-            cf.complete(accounts.get(uuid));
+            cf.complete(account);
         }
         return cf;
     }
