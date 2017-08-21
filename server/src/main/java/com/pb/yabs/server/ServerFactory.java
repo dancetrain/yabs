@@ -10,6 +10,7 @@ import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.List;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
  * @author Pavel Borsky
@@ -18,9 +19,10 @@ import java.util.List;
 public class ServerFactory {
     private final AccountService accountService = new AccountService(new MemoryAccountDAO());
 
-    public HttpServer createServer(int port) throws IOException {
+    public HttpServer createServer(int port, int threads) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         server.createContext("/", new RootHandler(listProcessors()));
+        server.setExecutor(new ScheduledThreadPoolExecutor(threads));
         return server;
     }
 

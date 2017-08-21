@@ -34,7 +34,7 @@ public class RestServer {
             System.exit(1);
         } else {
             ServerFactory restServerFactory = new ServerFactory();
-            RestServer server = new RestServer(restServerFactory.createServer(Integer.parseInt(args[0])));
+            RestServer server = new RestServer(restServerFactory.createServer(Integer.parseInt(args[0]), 16));
             server.start();
         }
     }

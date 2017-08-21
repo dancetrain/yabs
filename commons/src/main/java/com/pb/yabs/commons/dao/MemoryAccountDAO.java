@@ -7,8 +7,7 @@ import com.pb.yabs.commons.model.Account;
 
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.*;
 import java.util.function.Function;
 
 /**
@@ -17,6 +16,7 @@ import java.util.function.Function;
  */
 public class MemoryAccountDAO implements AccountDAO {
     private Map<UUID, Account> accounts = new ConcurrentHashMap<>();
+    private ScheduledThreadPoolExecutor pool = new ScheduledThreadPoolExecutor(4);
 
     @Override
     public void clear() {
@@ -36,8 +36,13 @@ public class MemoryAccountDAO implements AccountDAO {
     }
 
     @Override
-    public CompletableFuture<Account> updateAccount(UUID uuid, Function<Account, Account> update){
-        return CompletableFuture.completedFuture(accounts.computeIfPresent(uuid, (u, account) -> update.apply(account)));
+    public CompletableFuture<Account> updateAccount(UUID uuid, Function<Account, Account> update) {
+        final CompletableFuture<Account> cf = new CompletableFuture<>();
+        // emulate some network delay before update
+        pool.schedule(() -> {
+            cf.complete(accounts.computeIfPresent(uuid, (u, account) -> update.apply(account)));
+        }, ThreadLocalRandom.current().nextLong(50), TimeUnit.MILLISECONDS);
+        return cf;
     }
 
     @Override
