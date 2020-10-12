@@ -27,7 +27,7 @@
         <janino.version>2.5.10</janino.version>
         <guava.version>23.0</guava.version>
         <findbugs.version>3.0.2</findbugs.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
     </properties>
 
     <dependencyManagement>
