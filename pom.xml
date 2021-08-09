@@ -25,7 +25,7 @@
         <jackson.version>2.10.0.pr1</jackson.version>
         <logback.version>1.2.0</logback.version>
         <janino.version>2.5.10</janino.version>
-        <guava.version>23.0</guava.version>
+        <guava.version>[30.0-jre,)</guava.version>
         <findbugs.version>3.0.2</findbugs.version>
         <junit.version>4.13.1</junit.version>
     </properties>
