@@ -22,7 +22,7 @@
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 
         <slf4j.version>1.7.12</slf4j.version>
-        <jackson.version>2.10.0.pr1</jackson.version>
+        <jackson.version>2.12.6.1</jackson.version>
         <logback.version>1.2.0</logback.version>
         <janino.version>2.5.10</janino.version>
         <guava.version>[30.0-jre,)</guava.version>
