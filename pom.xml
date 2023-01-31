@@ -23,7 +23,7 @@
 
         <slf4j.version>1.7.12</slf4j.version>
         <jackson.version>2.12.7.1</jackson.version>
-        <logback.version>1.2.0</logback.version>
+        <logback.version>1.2.9</logback.version>
         <janino.version>2.5.10</janino.version>
         <guava.version>[30.0-jre,)</guava.version>
         <findbugs.version>3.0.2</findbugs.version>
